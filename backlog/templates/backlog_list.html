@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Backlog</title>
+</head>
+<body>
+    <h1>My Backlog</h1>
+
+    {% for entry in user_books %}
+        <div>
+            {% if entry.book.cover_url %}
+                <img src="{{ entry.book.cover_url }}" alt="{{ entry.book.title }}" width="80">
+            {% endif %}
+            <p>
+                <strong>{{ entry.book.title }}</strong> by {{ entry.book.author }} - Status: {{ entry.get_status_display }}
+                {% if entry.rating %} - Rating: {{ entry.get_rating_display }}/5{% endif %}
+                {% if entry.date_finished %} - Finished: {{ entry.date_finished }}{% endif %}
+            </p>
+            {% if entry.review %}<p>Review: {{ entry.review }}</p>{% endif %}
+
+            <a href="{% url 'update_entry' entry.pk %}">Update</a>
+            <a href="{% url 'delete_entry' entry.pk %}">Delete</a>
+        </div>
+    {% empty %}
+        <p>Your backlog is empty. Go <a href="{% url 'search' %}">search for books</a> to add some.</p>
+    {% endfor %}
+</body>
+</html>

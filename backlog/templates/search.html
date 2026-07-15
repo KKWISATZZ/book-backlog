@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Books</title>
+</head>
+<body>
+    <h1>Search Books</h1>
+
+    <form method="get">
+        <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search for a book...">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% for book in results %}
+        <div>
+            {% if book.cover_url %}
+                <img src="{{ book.cover_url }}" alt="{{ book.title }}" width="80">
+            {% endif %}
+            <p><strong>{{ book.title }}</strong> by {{ book.author }} ({{ book.published_year }})</p>
+
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'add_to_backlog' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="open_library_id" value="{{ book.open_library_id }}">
+                    <input type="hidden" name="title" value="{{ book.title }}">
+                    <input type="hidden" name="author" value="{{ book.author }}">
+                    <input type="hidden" name="cover_url" value="{{ book.cover_url }}">
+                    <input type="hidden" name="published_year" value="{{ book.published_year }}">
+                    <button type="submit">Add to Backlog</button>
+                </form>
+            {% endif %}
+        </div>
+    {% empty %}
+        {% if query %}
+            <p>No results found for "{{ query }}".</p>
+        {% endif %}
+    {% endfor %}
+    
+</body>
+</html>
