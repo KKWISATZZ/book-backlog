@@ -27,15 +27,15 @@ def home(request):
     return render(request, "home.html")
 
 def search_books(request):
+    # Only hit the API if the user actually typed something
     query = request.GET.get("q")
     results = search_open_library(query) if query else []
     return render(request, "search.html", {"results": results, "query": query})
 
-from django.contrib import messages
-
 @login_required
 def add_to_backlog(request):
     if request.method == "POST":
+        # get_or_create avoids creating a duplicate Book row if the book already exists in the database from a previous search/add
         book, created = Book.objects.get_or_create(
             open_library_id=request.POST.get("open_library_id"),
             defaults={
@@ -45,6 +45,7 @@ def add_to_backlog(request):
                 "published_year": request.POST.get("published_year") or None,
             }
         )
+        # Same idea here, prevents duplicate UserBook entries, which would otherwise violate the unique_together constraint
         _, added = UserBook.objects.get_or_create(user=request.user, book=book)
         if added:
             messages.success(request, f'"{book.title}" added to your backlog!')
@@ -56,7 +57,8 @@ class BacklogListView(LoginRequiredMixin, ListView):
     model = UserBook
     template_name = "backlog_list.html"
     context_object_name = "user_books"
-
+    
+    # Restrict to the logged-in user's own entries only, without this, everyone's backlog would be visible to everyone
     def get_queryset(self):
         return UserBook.objects.filter(user=self.request.user)
     
@@ -66,9 +68,10 @@ class BacklogUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "update_entry.html"
     success_url = reverse_lazy("backlog_list")
 
+    # Same protection as above, also stops a user from editing someone else's entry by guessing its ID in the URL
     def get_queryset(self):
         return UserBook.objects.filter(user=self.request.user)
-
+    # Swap the auto-generated text input for a real date picker
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields["date_finished"].widget = forms.DateInput(attrs={"type": "date"})

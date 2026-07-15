@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Book(models.Model):
+    # open_library_id must be unique so the same book from the API never gets duplicated when different users add it
     open_library_id = models.CharField(max_length=50, unique=True)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
@@ -15,11 +16,12 @@ class Book(models.Model):
         return self.title
     
 class UserBook(models.Model):
+    # Restricts status to a fixed set of options instead of free text
     class Status(models.TextChoices):
         SHELVED = "SH", "Shelved"
         READING = "RD", "Reading"
         FINISHED = "FN", "Finished"
-
+    # Same here with the ratings, I am thinking about using DecimalField to allow half-star ratings, but kept it simple for now
     class Rating(models.IntegerChoices):
         ZERO = 0, "0"
         ONE = 1, "1"
@@ -37,6 +39,7 @@ class UserBook(models.Model):
     date_finished = models.DateField(blank=True, null=True)
 
     class Meta:
+        # A user can only have one backlog entry per book, prevents adding the same book to your list twice
         unique_together = ("user", "book")
 
     def __str__(self):
