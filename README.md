@@ -35,26 +35,29 @@ A Django web app for tracking your readings. Search for books, add them to your 
 ## Setup Instructions
 
 1. Clone the repository
+---
 git clone <repo-url>
+---
 cd book-backlog
-
-2. Create and activate a virtual environment
+---
+3. Create and activate a virtual environment
 ---
 python -m venv venv
+---
 source venv/bin/activate
-
+---
 4. Install dependencies
 ---
 pip install django requests
-
+---
 6. Run migrations
 ---
 python manage.py migrate
-
+---
 8. Create a superuser (optional, for admin access)
 ---
 python manage.py createsuperuser
-
+---
 10. Run the server
 ---
 python manage.py runserver
