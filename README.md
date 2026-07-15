@@ -39,19 +39,24 @@ git clone <repo-url>
 cd book-backlog
 
 2. Create and activate a virtual environment
+---
 python -m venv venv
 source venv/bin/activate
 
-3. Install dependencies
+4. Install dependencies
+---
 pip install django requests
 
-4. Run migrations
+6. Run migrations
+---
 python manage.py migrate
 
-5. Create a superuser (optional, for admin access)
+8. Create a superuser (optional, for admin access)
+---
 python manage.py createsuperuser
 
-6. Run the server
+10. Run the server
+---
 python manage.py runserver
 
-7. Visit `http://127.0.0.1:8000/`
+12. Visit `http://127.0.0.1:8000/`
