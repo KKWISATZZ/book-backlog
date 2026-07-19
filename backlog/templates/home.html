@@ -1,24 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Backlog</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <h1>Welcome to Book Backlog</h1>
 
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}!</p>
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'signup' %}">Sign Up</a>
+    {% if not user.is_authenticated %}
+        <p>Search for books, track your reading, and rate what you've read.</p>
     {% endif %}
-</body>
-</html>
-
-
+{% endblock %}

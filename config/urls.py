@@ -16,16 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from backlog.views import signup, home, search_books, add_to_backlog, BacklogListView, BacklogUpdateView, BacklogDeleteView
+from backlog.views import search_books, add_to_backlog, BacklogListView, BacklogUpdateView, BacklogDeleteView, HomeView, SignupView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", home, name='home'),
+    path("", HomeView.as_view(), name="home"),
     path('search/', search_books, name='search'),
     path("add/", add_to_backlog, name="add_to_backlog"),
     path('backlog/', BacklogListView.as_view(), name='backlog_list'),
     path('update/<int:pk>/', BacklogUpdateView.as_view(), name='update_entry'),
     path('delete/<int:pk>/', BacklogDeleteView.as_view(), name='delete_entry'),
-    path('accounts/signup/', signup, name='signup'),
+    path("accounts/signup/", SignupView.as_view(), name="signup"),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

@@ -4,7 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from django.views.generic.edit import UpdateView, DeleteView
+from django.views.generic import TemplateView
+from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
 from .apis import search_open_library
 from .models import Book, UserBook
@@ -12,19 +13,14 @@ from django import forms
 
 # Create your views here.
 
-def signup(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("login")
-    else:
-        form = UserCreationForm()
-    return render(request, "registration/signup.html", {"form": form})
+class SignupView(CreateView):
+    form_class = UserCreationForm
+    template_name = "registration/signup.html"
+    success_url = reverse_lazy("login")
 
 
-def home(request):
-    return render(request, "home.html")
+class HomeView(TemplateView):
+    template_name = "home.html"
 
 def search_books(request):
     # Only hit the API if the user actually typed something
@@ -57,7 +53,6 @@ class BacklogListView(LoginRequiredMixin, ListView):
     model = UserBook
     template_name = "backlog_list.html"
     context_object_name = "user_books"
-    
     # Restrict to the logged-in user's own entries only, without this, everyone's backlog would be visible to everyone
     def get_queryset(self):
         return UserBook.objects.filter(user=self.request.user)

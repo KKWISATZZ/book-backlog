@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Books</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Search - Book Backlog{% endblock %}
+
+{% block content %}
     <h1>Search Books</h1>
 
     <form method="get">
         <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search for a book...">
         <button type="submit">Search</button>
     </form>
-
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
 
     {% for book in results %}
         <div>
@@ -43,6 +34,4 @@
             <p>No results found for "{{ query }}".</p>
         {% endif %}
     {% endfor %}
-    
-</body>
-</html>
+{% endblock %}

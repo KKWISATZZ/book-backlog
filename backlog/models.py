@@ -10,7 +10,7 @@ class Book(models.Model):
     author = models.CharField(max_length=255)
     cover_url = models.URLField(blank=True, null=True)
     published_year = models.IntegerField()
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.title

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Backlog</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}My Backlog - Book Backlog{% endblock %}
+
+{% block content %}
     <h1>My Backlog</h1>
 
     {% for entry in user_books %}
@@ -14,9 +11,10 @@
                 <img src="{{ entry.book.cover_url }}" alt="{{ entry.book.title }}" width="80">
             {% endif %}
             <p>
-                <strong>{{ entry.book.title }}</strong> by {{ entry.book.author }} - Status: {{ entry.get_status_display }}
-                {% if entry.rating %} - Rating: {{ entry.get_rating_display }}/5{% endif %}
-                {% if entry.date_finished %} - Finished: {{ entry.date_finished }}{% endif %}
+                <strong>{{ entry.book.title }}</strong> by {{ entry.book.author }}
+                -- Status: {{ entry.get_status_display }}
+                {% if entry.rating %} -- Rating: {{ entry.get_rating_display }}{% endif %}
+                {% if entry.date_finished %} -- Finished: {{ entry.date_finished }}{% endif %}
             </p>
             {% if entry.review %}<p>Review: {{ entry.review }}</p>{% endif %}
 
@@ -26,5 +24,4 @@
     {% empty %}
         <p>Your backlog is empty. Go <a href="{% url 'search' %}">search for books</a> to add some.</p>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
