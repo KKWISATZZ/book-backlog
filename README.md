@@ -17,8 +17,8 @@ A Django web app for tracking your readings. Search for books, add them to your 
 
 ## Views (For now)
 
-- Function-based: home, search_books, add_to_backlog, signup
-- Class-based: BacklogListView, BacklogUpdateView, BacklogDeleteView
+- Function-based: search_books, add_to_backlog
+- Class-based: HomeView(TemplateView), SignupView(CreateView), BacklogListView(ListView), BacklogUpdateView(UpdateView), BacklogDeleteView(DeleteView)
 
 ## What I've finished so far:
 - Models
@@ -28,10 +28,7 @@ A Django web app for tracking your readings. Search for books, add them to your 
 - Base template with shared navbar
 
 ## What is left
-- Filtering and Detail View
 - Templates and styling using Bootstrap
-
-## See urls.py for navigation
 
 ## Setup Instructions
 
