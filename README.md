@@ -25,6 +25,7 @@ A Django web app for tracking your readings. Search for books, add them to your 
 - User auth
 - API Integration
 - CRUD
+- Base template with shared navbar
 
 ## What is left
 - Filtering and Detail View
