@@ -3,35 +3,48 @@
 {% block title %}Search - Book Backlog{% endblock %}
 
 {% block content %}
-    <h1>Search Books</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Search Books</h1>
 
-    <form method="get">
-        <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search for a book...">
-        <button type="submit">Search</button>
+    <form method="get" class="d-flex mb-4">
+        <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search for a book..." class="form-control me-2">
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
-    {% for book in results %}
-        <div>
-            {% if book.cover_url %}
-                <img src="{{ book.cover_url }}" alt="{{ book.title }}" width="80">
-            {% endif %}
-            <p><strong>{{ book.title }}</strong> by {{ book.author }} ({{ book.published_year }})</p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for book in results %}
+            <div class="col">
+                <div class="card h-100">
+                    {% if book.cover_url %}
+                        <img src="{{ book.cover_url }}" class="card-img-top" alt="{{ book.title }}" style="height: 250px; object-fit: contain; padding-top: 10px;">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                            <span class="text-muted">No cover</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text text-muted">{{ book.author }} ({{ book.published_year }})</p>
 
-            {% if user.is_authenticated %}
-                <form method="post" action="{% url 'add_to_backlog' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="open_library_id" value="{{ book.open_library_id }}">
-                    <input type="hidden" name="title" value="{{ book.title }}">
-                    <input type="hidden" name="author" value="{{ book.author }}">
-                    <input type="hidden" name="cover_url" value="{{ book.cover_url }}">
-                    <input type="hidden" name="published_year" value="{{ book.published_year }}">
-                    <button type="submit">Add to Backlog</button>
-                </form>
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'add_to_backlog' %}" class="mt-auto">
+                                {% csrf_token %}
+                                <input type="hidden" name="open_library_id" value="{{ book.open_library_id }}">
+                                <input type="hidden" name="title" value="{{ book.title }}">
+                                <input type="hidden" name="author" value="{{ book.author }}">
+                                <input type="hidden" name="cover_url" value="{{ book.cover_url }}">
+                                <input type="hidden" name="published_year" value="{{ book.published_year }}">
+                                <button type="submit" class="btn btn-outline-primary btn-sm w-100">Add to Backlog</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            {% if query %}
+                <p class="text-muted">No results found for "{{ query }}".</p>
             {% endif %}
-        </div>
-    {% empty %}
-        {% if query %}
-            <p>No results found for "{{ query }}".</p>
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
