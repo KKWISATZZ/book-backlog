@@ -46,7 +46,7 @@ A Django web app for tracking your readings. Search for books, add them to your 
 
 3. Install dependencies
 ```
-   pip install django requests
+      pip install -r requirements.txt
 ```
 
 4. Run migrations
