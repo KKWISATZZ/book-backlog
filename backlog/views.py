@@ -69,9 +69,11 @@ class BacklogUpdateView(LoginRequiredMixin, UpdateView):
     # Swap the auto-generated text input for a real date picker
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        form.fields["date_finished"].widget = forms.DateInput(attrs={"type": "date"})
+        form.fields["date_finished"].widget = forms.DateInput(attrs={"type": "date", "class": "form-control"})
+        for field_name, field in form.fields.items():
+            if field_name != "date_finished":
+                field.widget.attrs["class"] = "form-control"
         return form
-
 
 class BacklogDeleteView(LoginRequiredMixin, DeleteView):
     model = UserBook

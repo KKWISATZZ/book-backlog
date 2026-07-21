@@ -3,11 +3,18 @@
 {% block title %}Update Book - Book Backlog{% endblock %}
 
 {% block content %}
-    <h1>Update: {{ object.book.title }}</h1>
+<div class="container mt-4" style="max-width: 500px;">
+    <h1 class="mb-4">Update: {{ object.book.title }}</h1>
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
+</div>
 {% endblock %}

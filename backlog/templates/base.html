@@ -10,11 +10,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
     <style>
+
+        :root {
+            --color-bg: #dad7cd;
+            --color-card-bg: #ebe9e0;
+            --color-primary: #3a5a40;
+            --color-primary-hover: #24352d;
+            --color-text: #344e41;
+            --color-muted: #899771;
+        }
+
         body {
             font-family: 'Lora', serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
         }
+
         h1, h2, h3 {
             font-weight: 600;
+        }
+
+        .navbar {
+            background-color: var(--color-primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-primary-hover);
+            border-color: var(--color-primary-hover);
+        }
+
+        .btn-outline-primary {
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .card {
+            background-color: var(--color-card-bg);
+            border-color: #e8dfd0;
+        }
+
+        .text-muted {
+            color: var(--color-muted) !important;
         }
     </style>
     {% block style %}{% endblock %}
